@@ -1,5 +1,8 @@
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 var over = [
+  [0.46444, -0.87444],
   [0.46444, -0.87444],
   [0.6318, -0.77578],
   [0.69874, -0.69507],
@@ -299,114 +302,102 @@ var eyes = [
   [0.35565, 0.13901],
   [0.35565, 0.16592]
 ];
-function drawLines() {
+async function drawLines() {
   var myportrait = document.getElementById("canvas");
-var pixctx = myportrait.getContext("2d");
-  var interval = 90;
+  var pixctx = myportrait.getContext("2d");
   function drawLine(x0, y0, x, y) {
-    var amount = 0;
-    function a() {
-      amount += 0.1;
-      pixctx.moveTo(x0, y0);
-      pixctx.lineTo(x0 + (x - x0) * amount, y0 + (y - y0) * amount);
-      if (amount > (0.1 * interval) / 100) pixctx.stroke();
-      if (amount >= 1) clearInterval(timerId);
-    }
-    var timerId = setInterval(a, interval);
-
-    amount = 0;
-    interval += 1;
+    pixctx.moveTo(x0, y0);
+    pixctx.lineTo(x, y);
   }
   pixctx.clearRect(0, 0, 400, 400);
-  pixctx.beginPath();
   for (var i = 1; i < over.length; ++i) {
+    pixctx.beginPath();
     if (over[i][0] == 0 && over[i][1] == 0) {
       i++;
     } else {
-      setTimeout(b, interval);
-      function b() {
-        drawLine(
-          150 * (1.5 - over[i - 1][0]),
-          150 * (1.5 - over[i - 1][1]),
-          150 * (1.5 - over[i][0]),
-          150 * (1.5 - over[i][1])
-        );
-      }
-      b();
+      await new Promise(resolve => setTimeout(resolve, 10));
+      drawLine(
+        150 * (1.5 - over[i - 1][0]),
+        150 * (1.5 - over[i - 1][1]),
+        150 * (1.5 - over[i][0]),
+        150 * (1.5 - over[i][1])
+      );
+      pixctx.closePath();
+      pixctx.stroke();
     }
   }
-  pixctx.closePath();
-  pixctx.stroke();
-  pixctx.beginPath();
+
   for (var i = 1; i < eyes.length; ++i) {
+    pixctx.beginPath();
     if (eyes[i][0] == 0 && eyes[i][1] == 0) {
       i++;
       pixctx.moveTo(150 * (1.5 - eyes[i][0]), 150 * (1.5 - eyes[i][1]));
     } else {
+      await new Promise(resolve => setTimeout(resolve, 40));
       drawLine(
         150 * (1.5 - eyes[i - 1][0]),
         150 * (1.5 - eyes[i - 1][1]),
         150 * (1.5 - eyes[i][0]),
         150 * (1.5 - eyes[i][1])
       );
+      pixctx.closePath();
+      pixctx.stroke();
     }
   }
-  pixctx.closePath();
 }
 drawLines();
 setInterval(drawLines, 5000);
-function drawSplain(){
-    var myportrait = document.getElementById("canvas2");
-var pixctx = myportrait.getContext("2d");
-  var interval = 90;
-  function drawLine(x0, y0, x, y) {
-    var amount = 0;
-    function a() {
-      amount += 0.1;
-      pixctx.moveTo(x0, y0);
-      pixctx.bezierCurveTo(x0 + (x - x0) * amount + 1, y0 + (y - y0) * amount + 1, x +1, y+1, x0 + (x - x0) * amount, y0 + (y - y0) * amount);
-      if (amount > (0.1 * interval) / 100) pixctx.stroke();
-      if (amount >= 1) clearInterval(timerId);
-    }
-    var timerId = setInterval(a, 0);
-
-    amount = 0;
-    interval += 1;
-  }
-  pixctx.clearRect(0, 0, 400, 400);
-  pixctx.beginPath();
-  for (var i = 1; i < over.length; ++i) {
+var myportrait2 = document.getElementById("canvas2");
+var pixctx2 = myportrait2.getContext("2d");
+function drawLine(x0, y0, x, y, x1, y1, x2, y2) {
+  pixctx2.moveTo(x0, y0);
+  pixctx2.bezierCurveTo(x, y, x1, y1, x2, y2);
+}
+async function drawSplain() {
+  pixctx2.clearRect(0, 0, 400, 400);
+  for (var i = 3; i < over.length; i += 1) {
+    pixctx2.beginPath();
     if (over[i][0] == 0 && over[i][1] == 0) {
-      i++;
+      i += 3;
     } else {
-      setTimeout(b, interval);
-      function b() {
-        drawLine(
-          150 * (1.5 - over[i - 1][0]),
-          150 * (1.5 - over[i - 1][1]),
-          150 * (1.5 - over[i][0]),
-          150 * (1.5 - over[i][1])
-        );
-      }
-      b();
+      await new Promise(resolve => setTimeout(resolve, 10));
+      drawLine(
+        150 * (1.5 - over[i - 3][0]),
+        150 * (1.5 - over[i - 3][1]),
+        150 * (1.5 - over[i - 2][0]),
+        150 * (1.5 - over[i - 2][1]),
+        150 * (1.5 - over[i - 1][0]),
+        150 * (1.5 - over[i - 1][1]),
+        150 * (1.5 - over[i][0]),
+        150 * (1.5 - over[i][1])
+      );
+
+      pixctx2.closePath();
+      pixctx2.stroke();
     }
   }
-  pixctx.closePath();
-  pixctx.stroke();
-  pixctx.beginPath();
-  for (var i = 1; i < eyes.length; ++i) {
+
+  for (var i = 3; i < eyes.length; i += 1) {
+    pixctx2.beginPath();
     if (eyes[i][0] == 0 && eyes[i][1] == 0) {
-      i++;
-      pixctx.moveTo(150 * (1.5 - eyes[i][0]), 150 * (1.5 - eyes[i][1]));
+      i += 3;
+      pixctx2.moveTo(150 * (1.5 - eyes[i][0]), 150 * (1.5 - eyes[i][1]));
     } else {
+      await new Promise(resolve => setTimeout(resolve, 50));
       drawLine(
+        150 * (1.5 - eyes[i - 3][0]),
+        150 * (1.5 - eyes[i - 3][1]),
+        150 * (1.5 - eyes[i - 2][0]),
+        150 * (1.5 - eyes[i - 2][1]),
         150 * (1.5 - eyes[i - 1][0]),
         150 * (1.5 - eyes[i - 1][1]),
         150 * (1.5 - eyes[i][0]),
         150 * (1.5 - eyes[i][1])
       );
+      pixctx2.closePath();
+      pixctx2.stroke();
     }
   }
-  pixctx.closePath();
 }
-setInterval(drawSplain,4000);
+drawSplain();
+setInterval(drawSplain, 5000);
