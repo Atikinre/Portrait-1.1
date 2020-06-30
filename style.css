@@ -9,3 +9,7 @@ h1 {
   font-style: italic;
   color: #373fff;
 }
+canvas{
+  border: solid 1px green;
+  
+}
