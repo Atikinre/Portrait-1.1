@@ -1,6 +1,3 @@
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 var over = [
   [0.46444, -0.87444],
   [0.46444, -0.87444],
