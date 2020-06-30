@@ -11,5 +11,5 @@ h1 {
 }
 canvas{
   border: solid 1px green;
-  
+  transform: scale(-1, 1); 
 }
