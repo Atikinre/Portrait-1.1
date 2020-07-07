@@ -330,7 +330,7 @@ async function drawLines() {
       i++;
       pixctx.moveTo(150 * (1.5 - eyes[i][0]), 150 * (1.5 - eyes[i][1]));
     } else {
-      await new Promise(resolve => setTimeout(resolve, 40));
+      await new Promise(resolve => setTimeout(resolve, 10));
       drawLine(
         150 * (1.5 - eyes[i - 1][0]),
         150 * (1.5 - eyes[i - 1][1]),
@@ -352,42 +352,41 @@ function drawLine(x0, y0, x, y, x1, y1, x2, y2) {
 }
 async function drawSplain() {
   pixctx2.clearRect(0, 0, 400, 400);
-  for (var i = 3; i < over.length; i += 1) {
+  for (var i = 1; i < over.length; i += 1) {
     pixctx2.beginPath();
     if (over[i][0] == 0 && over[i][1] == 0) {
-      i += 3;
+      i ++;
     } else {
       await new Promise(resolve => setTimeout(resolve, 10));
-      drawLine(
-        150 * (1.5 - over[i - 3][0]),
-        150 * (1.5 - over[i - 3][1]),
-        150 * (1.5 - over[i - 2][0]),
-        150 * (1.5 - over[i - 2][1]),
+     drawLine(
+        150 * (1.5 - over[i-1][0]),
+        150 * (1.5 - over[i-1][1]),
         150 * (1.5 - over[i - 1][0]),
-        150 * (1.5 - over[i - 1][1]),
+        150 * (1.5 - ((1-0.35)*over[i-1][1] + 0.35*over[i][1])),
+        150 * (1.5 - over[i][0]),
+        150 * (1.5 - (0.35*over[i-1][1] + 0.65*over[i][1])),
         150 * (1.5 - over[i][0]),
         150 * (1.5 - over[i][1])
       );
-
       pixctx2.closePath();
       pixctx2.stroke();
     }
   }
 
-  for (var i = 3; i < eyes.length; i += 1) {
+  for (var i = 1; i < eyes.length; i += 1) {
     pixctx2.beginPath();
     if (eyes[i][0] == 0 && eyes[i][1] == 0) {
-      i += 3;
+      i ++;
       pixctx2.moveTo(150 * (1.5 - eyes[i][0]), 150 * (1.5 - eyes[i][1]));
     } else {
       await new Promise(resolve => setTimeout(resolve, 50));
       drawLine(
-        150 * (1.5 - eyes[i - 3][0]),
-        150 * (1.5 - eyes[i - 3][1]),
-        150 * (1.5 - eyes[i - 2][0]),
-        150 * (1.5 - eyes[i - 2][1]),
+        150 * (1.5 - eyes[i-1][0]),
+        150 * (1.5 - eyes[i-1][1]),
         150 * (1.5 - eyes[i - 1][0]),
-        150 * (1.5 - eyes[i - 1][1]),
+        150 * (1.5 - ((1-0.5)*eyes[i-1][1] + 0.5*eyes[i][1])),
+        150 * (1.5 - eyes[i][0]),
+        150 * (1.5 - (0.5*eyes[i-1][1] + 0.5*eyes[i][1])),
         150 * (1.5 - eyes[i][0]),
         150 * (1.5 - eyes[i][1])
       );
