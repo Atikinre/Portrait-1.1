@@ -396,5 +396,5 @@ async function drawSplain() {
     }
   }
 }
-drawSplain();
-setInterval(drawSplain, 5000);
+//drawSplain();
+//setInterval(drawSplain, 5000);
